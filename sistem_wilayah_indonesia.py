@@ -3,7 +3,7 @@ Sistem Informasi Wilayah Indonesia — Versi Refactor (2025)
 ==========================================================
 Data Source: Permendagri No. 137/2017, BPS, Wikipedia (2024)
 Author: Sulu Edward Julianto
-Version: 3.0.0
+Version: 3.0.1 - Fixed
 Python: 3.10+
 """
 
@@ -29,8 +29,6 @@ class SistemWilayahIndonesia:
 
     def __init__(self):
         """Inisialisasi data wilayah Indonesia & struktur bantu."""
-        # NOTE: Untuk kesederhanaan demo, data tetap dideklarasikan di file ini.
-        # Di produksi, sebaiknya dipisah ke file JSON lalu di-load di sini.
         self.data_wilayah: Dict[str, Dict[str, List[str] | str]] = {
             "Nanggroe Aceh Darussalam": {
                 "ibu_kota": "Banda Aceh",
@@ -433,36 +431,123 @@ class SistemWilayahIndonesia:
             self._alias_map[_norm(prov)] = prov
         # Alias umum
         manual_alias = {
-            "aceh": "Nanggroe Aceh Darussalam",
-            "jakarta": "DKI Jakarta",
-            "dki jakarta": "DKI Jakarta",
-            "daerah khusus ibu kota jakarta": "DKI Jakarta",
-            "yogyakarta": "Daerah Istimewa Yogyakarta",
-            "diy": "Daerah Istimewa Yogyakarta",
-            "kepulauan riau": "Kepulauan Riau",
-            "kepri": "Kepulauan Riau",
-            "bangka belitung": "Kepulauan Bangka Belitung",
-            "babel": "Kepulauan Bangka Belitung",
-            "ntb": "Nusa Tenggara Barat",
-            "ntt": "Nusa Tenggara Timur",
-            "kalbar": "Kalimantan Barat",
-            "kalteng": "Kalimantan Tengah",
-            "kalsel": "Kalimantan Selatan",
-            "kaltim": "Kalimantan Timur",
-            "kalut": "Kalimantan Utara",
-            "sulut": "Sulawesi Utara",
-            "sulteng": "Sulawesi Tengah",
-            "sulsel": "Sulawesi Selatan",
-            "sultra": "Sulawesi Tenggara",
-            "sulbar": "Sulawesi Barat",
-            "malut": "Maluku Utara",
-            "sumut": "Sumatera Utara",
-            "sumbar": "Sumatera Barat",
-            "sumsel": "Sumatera Selatan",
-            "papua barat daya": "Papua Barat Daya",
-            "papua tengah": "Papua Tengah",
-            "papua selatan": "Papua Selatan",
-            "papua pegunungan": "Papua Pegunungan",
+        # Aceh
+        "aceh": "Nanggroe Aceh Darussalam",
+        "nad": "Nanggroe Aceh Darussalam",
+
+        # Sumatera Utara
+        "sumut": "Sumatera Utara",
+
+        # Sumatera Barat
+        "sumbar": "Sumatera Barat",
+
+        # Riau
+        "riau": "Riau",
+
+        # Kepulauan Riau
+        "kepri": "Kepulauan Riau",
+
+        # Jambi
+        "jambi": "Jambi",
+
+        # Sumatera Selatan
+        "sumsel": "Sumatera Selatan",
+
+        # Kep. Bangka Belitung
+        "babel": "Kepulauan Bangka Belitung",
+
+        # Bengkulu
+        "bengkulu": "Bengkulu",
+
+        # Lampung
+        "lampung": "Lampung",
+
+        # DKI Jakarta
+        "jakarta": "DKI Jakarta",
+
+        # Jawa Barat
+        "jabar": "Jawa Barat",
+
+        # Jawa Tengah
+        "jateng": "Jawa Tengah",
+
+        # DI Yogyakarta
+        "diy": "Daerah Istimewa Yogyakarta",
+        "yogyakarta": "Daerah Istimewa Yogyakarta",
+        "jogja": "Daerah Istimewa Yogyakarta",
+
+        # Jawa Timur
+        "jatim": "Jawa Timur",
+
+        # Banten
+        "banten": "Banten",
+
+        # Bali
+        "bali": "Bali",
+
+        # Nusa Tenggara Barat
+        "ntb": "Nusa Tenggara Barat",
+
+        # Nusa Tenggara Timur
+        "ntt": "Nusa Tenggara Timur",
+
+        # Kalimantan Barat
+        "kalbar": "Kalimantan Barat",
+
+        # Kalimantan Tengah
+        "kalteng": "Kalimantan Tengah",
+
+        # Kalimantan Selatan
+        "kalsel": "Kalimantan Selatan",
+
+        # Kalimantan Timur
+        "kaltim": "Kalimantan Timur",
+
+        # Kalimantan Utara
+        "kaltara": "Kalimantan Utara",
+        "kalut": "Kalimantan Utara",
+
+        # Sulawesi Utara
+        "sulut": "Sulawesi Utara",
+
+        # Gorontalo
+        "gorontalo": "Gorontalo",
+
+        # Sulawesi Tengah
+        "sulteng": "Sulawesi Tengah",
+
+        # Sulawesi Barat
+        "sulbar": "Sulawesi Barat",
+
+        # Sulawesi Selatan
+        "sulsel": "Sulawesi Selatan",
+
+        # Sulawesi Tenggara
+        "sultra": "Sulawesi Tenggara",
+
+        # Maluku
+        "maluku": "Maluku",
+
+        # Maluku Utara
+        "malut": "Maluku Utara",
+
+        # Papua
+        "papua": "Papua",
+
+        # Papua Barat
+        "papua barat": "Papua Barat",
+
+        # Papua Barat Daya (DOB)
+        "papua barat daya": "Papua Barat Daya",
+
+        # Papua Tengah (DOB)
+        "papua tengah": "Papua Tengah",
+
+        # Papua Selatan (DOB)
+        "papua selatan": "Papua Selatan",
+
+        # Papua Pegunungan (DOB)
+        "papua pegunungan": "Papua Pegunungan",
         }
         for k, v in manual_alias.items():
             self._alias_map[k] = v
@@ -596,7 +681,7 @@ def tampilkan_header() -> None:
     print("║ • 'daftar'    - Lihat semua provinsi                    ║")
     print("║ • 'statistik' - Lihat statistik wilayah                 ║")
     print("║ • 'export'    - Export data ke file                     ║")
-    print("║ • 'keluar'    - Keluar dari program                     ║")
+    print("║ • 'keluar' atau 'quit' - Keluar dari program            ║")
     print("╚" + "═" * 58 + "╝")
 
 
@@ -614,7 +699,7 @@ def run_interactive() -> None:
                 continue
             perintah = _norm(input_pengguna)
 
-            if perintah == "keluar":
+            if perintah in ["keluar", "quit", "exit"]:
                 print("\n✅ Terima kasih telah menggunakan Sistem Informasi Wilayah Indonesia!")
                 print(f"📊 Sumber data: {DATA_SOURCE}")
                 break
@@ -645,12 +730,14 @@ def run_interactive() -> None:
                 print(f"📊 Kabupaten: {info_provinsi['total_kabupaten']} | Kota: {info_provinsi['total_kota']}")
 
                 if info_provinsi["kabupaten"]:
-                    sample_kab = info_provinsi["kabupaten"][:3]
-                    print(f"📍 Kabupaten: {', '.join(sample_kab)}")
-                    if len(info_provinsi["kabupaten"]) > 3:
-                        print(f"   ... dan {len(info_provinsi['kabupaten']) - 3} kabupaten lainnya")
+                    print(f"\n📍 KABUPATEN ({info_provinsi['total_kabupaten']}):")
+                    for i, kab in enumerate(info_provinsi["kabupaten"], 1):
+                        print(f"   {i:2}. {kab}")
+
                 if info_provinsi["kota"]:
-                    print(f"🏙️  Kota: {', '.join(info_provinsi['kota'])}")
+                    print(f"\n🏙️  KOTA ({info_provinsi['total_kota']}):")
+                    for i, kota in enumerate(info_provinsi["kota"], 1):
+                        print(f"   {i:2}. {kota}")
 
                 prov_acak = sistem.dapatkan_provinsi_acak(input_pengguna)
                 print("\n💡 Tahukah Anda?")
@@ -705,7 +792,6 @@ def main(argv: Optional[Iterable[str]] = None) -> None:
         print(path)
         return
 
-    # else: treat as search
     info = sistem.cari_provinsi(args.query)
     if info:
         print(json.dumps(info, ensure_ascii=False, indent=2))

@@ -129,7 +129,6 @@ Pencari-Ibu-Kota-Provinsi-Indonesia/
 ├── DATA_SOURCES.md
 ├── CHANGELOG.md
 ├── .gitignore
-└── data_export/  # dibuat otomatis saat export
 ```
 
 ---

@@ -20,27 +20,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+---
+
 ## 📊 Data Sources Attribution
 
 The administrative data used in this software is sourced from:
 
-1. **Regulation of the Minister of Home Affairs Number 137 of 2017**
-   - Official government regulation on administrative area codes and data
-   - Public domain information from the Indonesian Government
+1. **Regulation of the Minister of Home Affairs Number 137 of 2017**  
+   - Official government regulation on administrative area codes and data  
+   - Public domain information from the Indonesian Government  
 
-2. **Wikipedia: List of regencies and cities in Indonesia by province (2024)**
-   - Licensed under Creative Commons Attribution-ShareAlike (CC BY-SA)
-   - Contributors: Wikipedia community editors
-   - Source: [Wikipedia](https://id.wikipedia.org/wiki/Daftar_kabupaten_dan_kota_di_Indonesia_menurut_provinsi)
+2. **Wikipedia: List of regencies and cities in Indonesia by province (2024)**  
+   - Licensed under Creative Commons Attribution-ShareAlike (CC BY-SA)  
+   - Contributors: Wikipedia community editors  
+   - Source: [Wikipedia](https://id.wikipedia.org/wiki/Daftar_kabupaten_dan_kota_di_Indonesia_menurut_provinsi)  
 
-3. **Statistics Indonesia (Badan Pusat Statistik - BPS)**
-   - Official statistical data from the Indonesian government
-   - Public domain statistical information
+3. **Statistics Indonesia (Badan Pusat Statistik - BPS)**  
+   - Official statistical data from the Indonesian government  
+   - Public domain statistical information  
 
 📌 *Note: The MIT License applies to the source code. The administrative data follows the respective licenses of its sources.*
 
+---
+
 ## ⚠️ Disclaimer
 
-This software and its data are provided for informational and educational purposes only. While we strive to keep the administrative data accurate and up-to-date, users should verify information with official government sources for legal or official purposes.
+This software and its data are provided for informational and educational purposes only.  
+While we strive to keep the administrative data accurate and up-to-date, users should  
+verify information with official government sources for legal or official purposes.  
 
-The authors and contributors are not responsible for any decisions made based on the information provided by this software.
+The authors and contributors are not responsible for any decisions made based on the  
+information provided by this software.

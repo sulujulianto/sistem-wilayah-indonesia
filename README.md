@@ -1,19 +1,22 @@
-# 🗺️ Sistem Informasi Wilayah Indonesia
+# 🗺️ Sistem Informasi Wilayah Indonesia API
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-green.svg)](https://fastapi.tiangolo.com/)
 
-Sistem informasi komprehensif untuk mencari data provinsi, ibu kota, kabupaten, dan kota di Indonesia — data update hingga Agustus 2025.
+API RESTful komprehensif untuk mencari data provinsi, ibu kota, kabupaten, dan kota di Indonesia — data update hingga Agustus 2025.
 
 ---
 
 ## 📋 Deskripsi
 
-Program ini menyediakan akses mudah ke informasi administratif wilayah Indonesia, termasuk:
+API ini menyediakan akses mudah ke informasi administratif wilayah Indonesia, termasuk:
 - **38 Provinsi** dengan ibu kotanya
 - **416 Kabupaten**
 - **98 Kota**
 - Total **514** wilayah administratif tingkat kedua
+
+Versi terbaru merupakan konversi dari aplikasi CLI ke RESTful API menggunakan framework FastAPI.
 
 ---
 
@@ -34,18 +37,20 @@ Program ini menyediakan akses mudah ke informasi administratif wilayah Indonesia
 - File export diberi timestamp otomatis
 - Folder `data_export/` akan dibuat otomatis saat export pertama
 
-### 🎨 Antarmuka
-- CLI sederhana, interaktif, dan ramah pengguna
-- Emoji & formatting untuk meningkatkan keterbacaan
+### 🎨 API Features
+- RESTful API dengan endpoint yang jelas
+- Dokumentasi API otomatis dengan Swagger UI dan ReDoc
+- Validasi data dengan Pydantic
 - Penanganan error yang informatif
+- Support CORS untuk integrasi frontend
 
 ---
 
 ## 📚 Sumber Data
 
 Data digabungkan dan diverifikasi dari:
-1. **Peraturan Menteri Dalam Negeri No. 137 Tahun 2017** — kode & data wilayah administratif (Kemendagri).  
-2. **Wikipedia (2024)** — kompilasi kabupaten/kota per provinsi (verifikasi silang).  
+1. **Peraturan Menteri Dalam Negeri No. 137 Tahun 2017** — kode & data wilayah administratif (Kemendagri).
+2. **Wikipedia (2024)** — kompilasi kabupaten/kota per provinsi (verifikasi silang).
 3. **Badan Pusat Statistik (BPS)** — data statistik & validasi.
 
 Detail sumber dan metodologi ada di `DATA_SOURCES.md`.
@@ -60,8 +65,8 @@ Detail sumber dan metodologi ada di `DATA_SOURCES.md`.
 
 ### Cara cepat
 ```bash
-git clone https://github.com/username/Pencari-Ibu-Kota-Provinsi-Indonesia.git
-cd Pencari-Ibu-Kota-Provinsi-Indonesia
+git clone https://github.com/username/sistem-wilayah-indonesia.git
+cd sistem-wilayah-indonesia
 python -m venv venv
 # activate venv:
 # macOS / Linux:
@@ -69,66 +74,101 @@ source venv/bin/activate
 # Windows (PowerShell):
 venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-python sistem_wilayah_indonesia.py
+python run.py
 ```
 
 ---
 
-## 🚀 Penggunaan (CLI)
+## 🚀 Penggunaan (API)
 
-Saat program berjalan, Anda akan diminta memasukkan perintah atau kata kunci:
-- `daftar` → tampilkan semua provinsi
-- `statistik` → tampilkan statistik (total provinsi/kabupaten/kota)
-- `export` → export data (pilih format JSON atau TXT)
-- `keluar` → keluar aplikasi
-
-Contoh interaksi:
+### Menjalankan Server
+```bash
+python run.py
 ```
-🔍 Masukkan nama provinsi/kabupaten/kota: Jawa Barat
 
-🏛️  PROVINSI: Jawa Barat
-🏢 Ibu Kota: Bandung
-📊 Kabupaten: 18 | Kota: 9
-📍 Kabupaten: Kabupaten Bandung, Kabupaten Bandung Barat, Kabupaten Bekasi
-   ... dan 15 kabupaten lainnya
-🏙️  Kota: Kota Bandung, Kota Bekasi, Kota Bogor, Kota Cimahi, Kota Cirebon, Kota Depok, Kota Sukabumi, Kota Tasikmalaya, Kota Banjar
+Server akan berjalan di `http://localhost:8000`
+
+### Endpoint API
+
+| Endpoint | Method | Deskripsi |
+|---------|--------|-----------|
+| `/` | GET | Halaman utama API |
+| `/health` | GET | Health check endpoint |
+| `/api/v1/provinsi` | GET | Mendapatkan semua provinsi |
+| `/api/v1/provinsi/{nama}` | GET | Mendapatkan detail provinsi |
+| `/api/v1/search?q={query}` | GET | Mencari kabupaten/kota |
+| `/api/v1/stats` | GET | Mendapatkan statistik wilayah |
+| `/api/v1/random` | GET | Mendapatkan provinsi acak |
+
+### Dokumentasi API
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
+
+### Contoh Penggunaan API
+
+#### Mendapatkan semua provinsi:
+```bash
+curl http://localhost:8000/api/v1/provinsi
+```
+
+#### Mendapatkan detail provinsi:
+```bash
+curl http://localhost:8000/api/v1/provinsi/Jawa%20Barat
+```
+
+#### Mencari wilayah:
+```bash
+curl "http://localhost:8000/api/v1/search?q=bandung"
+```
+
+#### Mendapatkan statistik:
+```bash
+curl http://localhost:8000/api/v1/stats
 ```
 
 ---
 
-## 🏗️ Struktur Kode & API singkat
+## 🏗️ Struktur Kode
 
-File utama: `sistem_wilayah_indonesia.py`
-
-Kelas utama: `SistemWilayahIndonesia`
-- `cari_provinsi(nama_provinsi: str) -> Optional[Dict]`  
-- `cari_kabupaten_kota(nama_wilayah: str) -> Optional[List[Dict]]`  
-- `dapatkan_provinsi_acak(kecuali_provinsi: str = None) -> Dict`  
-- `dapatkan_statistik() -> Dict`  
-- `export_data(format_file: str = "json") -> str`
-
-Contoh pemakaian programatik:
-```python
-from sistem_wilayah_indonesia import SistemWilayahIndonesia
-
-sistem = SistemWilayahIndonesia()
-print(sistem.dapatkan_statistik())
-print(sistem.cari_provinsi("Jawa Barat"))
+```
+sistem-wilayah-indonesia/
+├── app/
+│   ├── __init__.py
+│   ├── main.py                 # Entry point aplikasi
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── wilayah.py          # Model data wilayah
+│   ├── services/
+│   │   ├── __init__.py
+│   │   └── wilayah_service.py  # Logika bisnis
+│   ├── api/
+│   │   ├── __init__.py
+│   │   └── routes.py           # Endpoint API
+│   └── utils/
+│       ├── __init__.py
+│       └── helpers.py          # Fungsi utilitas
+├── data/
+│   └── wilayah_data.json       # Data wilayah dalam format JSON
+├── tests/
+│   ├── __init__.py
+│   ├── test_wilayah_service.py
+│   └── test_api.py
+├── docs/
+│   └── api_documentation.md    # Dokumentasi API
+├── requirements.txt            # Dependensi Python
+├── README.md                   # Dokumentasi proyek
+├── .gitignore                  # File yang diabaikan Git
+└── run.py                      # Script untuk menjalankan aplikasi
 ```
 
 ---
 
-## 🗂️ Struktur Repository
+## 🧪 Testing
 
-```
-Pencari-Ibu-Kota-Provinsi-Indonesia/
-├── sistem_wilayah_indonesia.py
-├── requirements.txt
-├── README.md
-├── LICENSE
-├── DATA_SOURCES.md
-├── CHANGELOG.md
-├── .gitignore
+Menjalankan unit test:
+```bash
+pip install pytest
+pytest
 ```
 
 ---
@@ -136,6 +176,11 @@ Pencari-Ibu-Kota-Provinsi-Indonesia/
 ## 📝 Changelog (Ringkasan)
 
 Lihat `CHANGELOG.md` untuk detail lengkap. Ringkasan:
+- **3.0.0 — 2025-11** (Pembaruan Terbaru)
+  - Konversi ke RESTful API menggunakan FastAPI
+  - Penambahan dokumentasi API otomatis
+  - Unit testing dengan pytest
+  - Struktur proyek modular
 - **2.0.0 — 2025-08-19**
   - Complete rewrite; data komprehensif untuk 38 provinsi (416 kabupaten, 98 kota)
   - Advanced search, statistik, export JSON/TXT, CLI enhancements
@@ -158,33 +203,34 @@ Label yang disarankan: `bug`, `enhancement`, `data-update`, `documentation`.
 
 ## 📊 Data Accuracy & Update Policy
 
-- Data akurat per **Agustus 2025**.  
-- Major update: setiap 6 bulan. Minor update: bulanan. Verifikasi data: tiap 2 minggu.  
-- Untuk laporan ketidaksesuaian data: buat issue dengan label `data-update` dan sertakan sumber resmi.
+- Data akurat per **Agustus 2025**.
+- Major update: setiap 6 bulan. Minor update: bulanan. Verifikasi  tiap 2 minggu.
+- Untuk laporan ketidaksesuaian  buat issue dengan label `data-update` dan sertakan sumber resmi.
 
 ---
 
 ## 📞 Kontak & Dukungan
 
-- GitHub Issues: gunakan untuk bug/feature/data reports  
+- GitHub Issues: gunakan untuk bug/feature/data reports
 - Email: sulucodes@gmail.com
 
 ---
 
 ## 📜 Lisensi
 
-Kode dilisensikan di bawah **MIT License** — lihat file `LICENSE`.  
+Kode dilisensikan di bawah **MIT License** — lihat file `LICENSE`.
 > Catatan: Data mengikuti lisensi sumber masing-masing (contoh: Wikipedia CC BY-SA).
 
 ---
 
 ## 🙌 Acknowledgments
 
-- Kementerian Dalam Negeri RI (Kemendagri)  
-- Badan Pusat Statistik (BPS)  
-- Wikipedia contributors  
+- Kementerian Dalam Negeri RI (Kemendagri)
+- Badan Pusat Statistik (BPS)
+- Wikipedia contributors
 - Python community
+- FastAPI community
 
 ---
 
-*Last Updated: 19 Agustus 2025 — Document Version: 1.0*
+*Last Updated: November 2025 — Document Version: 3.0*

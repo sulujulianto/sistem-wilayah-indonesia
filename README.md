@@ -187,4 +187,4 @@ Kode dilisensikan di bawah **MIT License** — lihat file `LICENSE`.
 
 ---
 
-*Last Updated: 19 Agustus 2025 — Document Version: 1.0*
+*Last Updated: 19 Agustus 2025*

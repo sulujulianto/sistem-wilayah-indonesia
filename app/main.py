@@ -23,6 +23,6 @@ app.add_exception_handler(HTTPException, http_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 
 
-@app.get("/", include_in_schema=False)
+@app.api_route("/", methods=["GET", "HEAD"], include_in_schema=False)
 async def root_redirect() -> RedirectResponse:
     return RedirectResponse(url="/docs", status_code=307)

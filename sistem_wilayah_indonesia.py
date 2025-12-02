@@ -12,11 +12,13 @@ from __future__ import annotations
 import argparse
 import json
 import random
-from typing import Dict, List, Tuple, Optional, Iterable
+from pathlib import Path
+from typing import Dict, List, Optional, Iterable
 from datetime import datetime
 
 DATA_VERSION = "2024-12"
 DATA_SOURCE = "Kemendagri, BPS, Wikipedia (2024)"
+DEFAULT_DATA_PATH = Path(__file__).parent / "app" / "data" / "wilayah.json"
 
 
 def _norm(s: str) -> str:
@@ -27,9 +29,18 @@ def _norm(s: str) -> str:
 class SistemWilayahIndonesia:
     """Kelas untuk mengelola data wilayah administratif Indonesia."""
 
-    def __init__(self):
+    def __init__(self, data_path: str | Path | None = None):
         """Inisialisasi data wilayah Indonesia & struktur bantu."""
-        self.data_wilayah: Dict[str, Dict[str, List[str] | str]] = {
+        self.data_path = Path(data_path) if data_path else DEFAULT_DATA_PATH
+        self.data_wilayah: Dict[str, Dict[str, List[str] | str]]
+        data_from_file = self._load_from_json(self.data_path)
+        if data_from_file is not None:
+            self.data_wilayah = data_from_file
+            self._calculate_stats()
+            self._build_alias_map()
+            return
+
+        self.data_wilayah = {
             "Nanggroe Aceh Darussalam": {
                 "ibu_kota": "Banda Aceh",
                 "kabupaten": [
@@ -418,6 +429,18 @@ class SistemWilayahIndonesia:
         self._build_alias_map()
 
     # ------------------------------ Internal helpers ------------------------------
+    def _load_from_json(self, path: Path) -> Optional[Dict[str, Dict[str, List[str] | str]]]:
+        try:
+            if not path.exists():
+                return None
+            with path.open("r", encoding="utf-8") as file:
+                data = json.load(file)
+            if isinstance(data, dict):
+                return data
+        except Exception:
+            return None
+        return None
+
     def _calculate_stats(self) -> None:
         """Menghitung statistik data wilayah."""
         self.total_provinsi: int = len(self.data_wilayah)
@@ -551,6 +574,9 @@ class SistemWilayahIndonesia:
         }
         for k, v in manual_alias.items():
             self._alias_map[k] = v
+
+    def get_alias_map(self) -> Dict[str, str]:
+        return dict(self._alias_map)
 
     def _resolve_prov(self, nama_provinsi: str) -> Optional[str]:
         key = _norm(nama_provinsi)
@@ -773,7 +799,7 @@ def main(argv: Optional[Iterable[str]] = None) -> None:
     parser.add_argument("--format", dest="format", choices=["json", "txt"], default="json", help="Format export")
     parser.add_argument("--dir", dest="directory", default=".", help="Direktori export")
     parser.add_argument("--interactive", action="store_true", help="Jalankan mode interaktif")
-    args = parser.parse_args(argv)
+    args = parser.parse_args(list(argv) if argv is not None else None)
 
     if args.interactive or args.query is None:
         return run_interactive()

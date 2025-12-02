@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.0.0] - 2025-08-19
+## [2.0.0-cli] - 2025-08-19
 
 ### Added
 - 🎉 Complete rewrite with comprehensive kabupaten/kota data
@@ -51,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0] - 2024-01-16
+## [1.0.0-cli] - 2024-01-16
 
 ### Added
 - 🏛️ Basic province and capital city lookup

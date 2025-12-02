@@ -1,0 +1,11 @@
+{
+  "dataset_name": "Sistem Wilayah Indonesia",
+  "dataset_version": "2024-12",
+  "last_updated": "2025-12-01",
+  "source_notes": "Disarikan dari Permendagri 137/2017, BPS, dan Wikipedia (2024).",
+  "coverage": {
+    "total_provinsi": 38,
+    "total_kabupaten": 416,
+    "total_kota": 98
+  }
+}

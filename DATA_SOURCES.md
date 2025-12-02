@@ -149,7 +149,7 @@ Dokumen ini menjelaskan sumber data yang digunakan dalam Sistem Informasi Wilaya
 
 **Laporan Error**
 - 🐛 GitHub Issues
-- 📧 Email: *(placeholder: data-verification@project.com)*
+- Silakan gunakan GitHub Issues untuk laporan error.
 
 **Community Verification**
 - 👥 Lihat `CONTRIBUTING.md`

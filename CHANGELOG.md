@@ -7,7 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.0.0] - 2025-08-19
+## [Unreleased]
+
+## [0.1.0-api] - 2025-12-01
+
+### Added
+- 🚀 FastAPI service with `/health`, `/v1/stats`, `/v1/provinces`, and `/v1/search` endpoints plus unified error responses
+- 🗂️ JSON data file (`app/data/wilayah.json`) with loader fallback in `sistem_wilayah_indonesia.py`
+- 🧪 Service layer, Pydantic schemas, and pytest suite (FastAPI TestClient)
+- 🛠️ CI workflow (ruff, mypy, pytest), Dockerfile, and backend project scaffolding
+
+### Changed
+- 📄 README diperbarui untuk quickstart API, Docker, dan catatan versi (tag CLI `v1.0.0-cli`)
+- 📦 Dependencies disederhanakan: runtime FastAPI + dev tools (ruff, mypy, pytest)
+
+---
+
+## [2.0.0-cli] - 2025-08-19
 
 ### Added
 - 🎉 Complete rewrite with comprehensive kabupaten/kota data
@@ -35,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0] - 2024-01-16
+## [1.0.0-cli] - 2024-01-16
 
 ### Added
 - 🏛️ Basic province and capital city lookup

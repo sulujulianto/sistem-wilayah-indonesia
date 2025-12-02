@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import date
 from enum import Enum
 from typing import Any, List
 
@@ -61,3 +62,18 @@ class ErrorDetail(BaseModel):
 
 class ErrorResponse(BaseModel):
     error: ErrorDetail
+
+
+class Coverage(BaseModel):
+    total_provinsi: int
+    total_kabupaten: int
+    total_kota: int
+
+
+class Metadata(BaseModel):
+    dataset_name: str
+    dataset_version: str
+    last_updated: date
+    source_notes: str
+    coverage: Coverage
+    computed_coverage: Coverage | None = None

@@ -14,6 +14,13 @@ def _resolve_data_path() -> Path:
     return BASE_DIR / "data" / "wilayah.json"
 
 
+def _resolve_metadata_path() -> Path:
+    env_path = os.getenv("WILAYAH_METADATA_PATH")
+    if env_path:
+        return Path(env_path)
+    return BASE_DIR / "data" / "metadata.json"
+
+
 @dataclass
 class Settings:
     app_name: str = "Sistem Wilayah Indonesia API"
@@ -22,6 +29,7 @@ class Settings:
         "FastAPI service exposing Indonesian provinces, kabupaten, and kota data"
     )
     data_path: Path = _resolve_data_path()
+    metadata_path: Path = _resolve_metadata_path()
 
 
 settings = Settings()

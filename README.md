@@ -1,6 +1,6 @@
 # Sistem Informasi Wilayah Indonesia (API + CLI)
 
-FastAPI backend + CLI untuk data provinsi/kabupaten/kota. Snapshot dataset 2024-12 mencakup 38 provinsi, 416 kabupaten, 98 kota.
+FastAPI backend + CLI untuk data provinsi/kabupaten/kota. Snapshot dataset 2024-12 mencakup 38 provinsi, 416 kabupaten, 98 kota. Terakhir diverifikasi internal: Agustus 2025 (lihat DATA_SOURCES.md).
 
 ## Versi
 - Tag v1.0.0-cli (CLI/library lama)
@@ -48,7 +48,7 @@ mypy app
 ## Data
 - app/data/wilayah.json
 - app/data/metadata.json
-- Catatan: dataset snapshot kompilasi (2024-12) dan belum diverifikasi penuh terhadap dokumen pemutakhiran resmi tahun 2025.
+- Catatan: dataset snapshot kompilasi (2024-12) dan belum diverifikasi penuh terhadap dokumen pemutakhiran resmi tahun 2025; untuk kepentingan hukum, rujuk langsung ke instansi pemerintah (lihat DATA_SOURCES.md).
 
 ## Docker / Podman (opsional; CI memverifikasi docker build)
 ```bash
@@ -71,3 +71,8 @@ app/
   data/
 sistem_wilayah_indonesia.py
 ```
+
+## Referensi
+- CHANGELOG: CHANGELOG.md
+- Sumber & metodologi: DATA_SOURCES.md
+- Lisensi: LICENSE

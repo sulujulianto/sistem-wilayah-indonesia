@@ -1,10 +1,10 @@
 # Sistem Informasi Wilayah Indonesia (API + CLI)
 
-FastAPI backend dan CLI untuk data provinsi, kabupaten, dan kota di Indonesia. Snapshot dataset 2024-12 mencakup 38 provinsi, 416 kabupaten, dan 98 kota.
+FastAPI backend + CLI untuk data provinsi/kabupaten/kota. Snapshot dataset 2024-12 mencakup 38 provinsi, 416 kabupaten, 98 kota.
 
 ## Versi
-- Tag v1.0.0-cli (CLI/library lama).
-- Versi API: 0.1.0-api (branch feat/backend-api).
+- Tag v1.0.0-cli (CLI/library lama)
+- Versi API: 0.1.0-api (branch feat/backend-api)
 - Swagger/OpenAPI: http://127.0.0.1:8000/docs
 
 ## Quickstart Lokal
@@ -18,7 +18,7 @@ pip install -r requirements.txt -r requirements-dev.txt
 ```bash
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
-Gunakan host 0.0.0.0 hanya untuk container/jaringan jika paham risikonya.
+Gunakan host 0.0.0.0 hanya untuk container/jaringan jika Anda paham risikonya.
 
 ## Endpoint
 - GET /health
@@ -50,13 +50,13 @@ mypy app
 - app/data/metadata.json
 - Catatan: dataset snapshot kompilasi (2024-12) dan belum diverifikasi penuh terhadap dokumen pemutakhiran resmi tahun 2025.
 
-## Docker / Podman
+## Docker / Podman (opsional; CI memverifikasi docker build)
 ```bash
 # Docker
 docker build -t sistem-wilayah-indonesia-api .
 docker run -p 8000:8000 sistem-wilayah-indonesia-api
 
-# Podman (alternatif)
+# Podman
 podman build -t sistem-wilayah-indonesia-api .
 podman run -p 8000:8000 sistem-wilayah-indonesia-api
 ```

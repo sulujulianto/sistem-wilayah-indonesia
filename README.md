@@ -54,13 +54,24 @@ curl "$BASE_URL/v1/search?q=bima&type=all"
 pytest -q
 ruff check .
 mypy app
+# Smoke test (start server otomatis kecuali SMOKE_START_SERVER=0)
+./scripts/smoke_test.sh
+# atau
+make smoke
 ```
+
+## API Client (opsional)
+- Gunakan `api.http` (format REST Client) di VS Code/JetBrains untuk mencoba endpoint.
 
 ## Data
 - app/data/wilayah.json
 - app/data/metadata.json
 - Catatan: dataset snapshot kompilasi (2024-12) dan belum diverifikasi penuh terhadap dokumen pemutakhiran resmi tahun 2025; untuk kepentingan hukum, rujuk langsung ke instansi pemerintah (lihat DATA_SOURCES.md).
 - Lisensi data mengikuti sumber aslinya dan membutuhkan atribusi yang sesuai; lisensi kode: MIT (lihat LICENSE). DETAIL sumber dan atribusi: DATA_SOURCES.md.
+
+## Cache & CORS
+- Respons data statis menggunakan `Cache-Control: public, max-age=86400` dan `ETag`; jika mengirim `If-None-Match`, server akan membalas `304` tanpa body.
+- Aktifkan CORS dengan env `ALLOW_ORIGINS` (pisahkan koma jika banyak origin); kosongkan untuk menonaktifkan.
 
 ## Docker / Podman (opsional; CI memverifikasi docker build)
 ```bash

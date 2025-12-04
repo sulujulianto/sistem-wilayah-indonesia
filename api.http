@@ -1,0 +1,13 @@
+@baseUrl=http://127.0.0.1:8000
+
+GET {{baseUrl}}/health
+
+GET {{baseUrl}}/v1/stats
+
+GET {{baseUrl}}/v1/meta
+
+GET {{baseUrl}}/v1/provinces?limit=5&offset=0
+
+GET {{baseUrl}}/v1/provinces/jabar
+
+GET {{baseUrl}}/v1/search?q=bima&type=all

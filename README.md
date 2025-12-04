@@ -7,6 +7,10 @@ FastAPI backend + CLI untuk data provinsi/kabupaten/kota. Snapshot dataset 2024-
 - Versi API: 0.1.0-api (branch feat/backend-api)
 - Swagger/OpenAPI: http://127.0.0.1:8000/docs
 
+## Base URL (Production)
+- Placeholder: https://api.example.com
+- Swagger: https://api.example.com/docs
+
 ## Quickstart Lokal
 ```bash
 python -m venv .venv
@@ -28,14 +32,21 @@ Gunakan host 0.0.0.0 hanya untuk container/jaringan jika Anda paham risikonya.
 - GET /v1/provinces/{name} (alias & case-insensitive, 409 jika ambigu)
 - GET /v1/search?q=...&type=all|kabupaten|kota
 
-## Contoh curl (127.0.0.1)
+## Contoh curl (lokal & produksi)
 ```bash
+# Lokal
 curl http://127.0.0.1:8000/health
 curl http://127.0.0.1:8000/v1/stats
 curl http://127.0.0.1:8000/v1/meta
 curl "http://127.0.0.1:8000/v1/provinces?limit=5&offset=0"
 curl http://127.0.0.1:8000/v1/provinces/jabar
 curl "http://127.0.0.1:8000/v1/search?q=bima&type=all"
+
+# Produksi (ganti base URL sesuai deploy)
+BASE_URL=https://api.example.com
+curl "$BASE_URL/health"
+curl "$BASE_URL/v1/meta"
+curl "$BASE_URL/v1/search?q=bima&type=all"
 ```
 
 ## Pengembangan
@@ -49,6 +60,7 @@ mypy app
 - app/data/wilayah.json
 - app/data/metadata.json
 - Catatan: dataset snapshot kompilasi (2024-12) dan belum diverifikasi penuh terhadap dokumen pemutakhiran resmi tahun 2025; untuk kepentingan hukum, rujuk langsung ke instansi pemerintah (lihat DATA_SOURCES.md).
+- Lisensi data mengikuti sumber aslinya dan membutuhkan atribusi yang sesuai; lisensi kode: MIT (lihat LICENSE). DETAIL sumber dan atribusi: DATA_SOURCES.md.
 
 ## Docker / Podman (opsional; CI memverifikasi docker build)
 ```bash
@@ -76,3 +88,4 @@ sistem_wilayah_indonesia.py
 - CHANGELOG: CHANGELOG.md
 - Sumber & metodologi: DATA_SOURCES.md
 - Lisensi: LICENSE
+- Deployment: DEPLOYMENT.md

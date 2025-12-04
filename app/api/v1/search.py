@@ -9,8 +9,9 @@ from app.schemas.wilayah import ErrorResponse, SearchResponse, SearchResult, Sea
 router = APIRouter()
 
 
-@router.get(
+@router.api_route(
     "/v1/search",
+    methods=["GET", "HEAD"],
     response_model=SearchResponse,
     responses={422: {"model": ErrorResponse}},
 )

@@ -10,7 +10,12 @@ from app.schemas.wilayah import ErrorResponse, Metadata
 router = APIRouter()
 
 
-@router.get("/v1/meta", response_model=Metadata, responses={404: {"model": ErrorResponse}})
+@router.api_route(
+    "/v1/meta",
+    methods=["GET", "HEAD"],
+    response_model=Metadata,
+    responses={404: {"model": ErrorResponse}},
+)
 async def get_metadata(request: Request, response: Response) -> Metadata | Response:
     etag = deps.get_data_etag()
     if request.headers.get("if-none-match") == etag:

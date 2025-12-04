@@ -10,8 +10,9 @@ from app.schemas.wilayah import ErrorResponse, Province, ProvinceListResponse
 router = APIRouter()
 
 
-@router.get(
+@router.api_route(
     "/v1/provinces",
+    methods=["GET", "HEAD"],
     response_model=ProvinceListResponse,
     responses={422: {"model": ErrorResponse}},
 )
@@ -36,8 +37,9 @@ async def list_provinces(
     )
 
 
-@router.get(
+@router.api_route(
     "/v1/provinces/{name}",
+    methods=["GET", "HEAD"],
     response_model=Province,
     responses={404: {"model": ErrorResponse}, 409: {"model": ErrorResponse}},
 )

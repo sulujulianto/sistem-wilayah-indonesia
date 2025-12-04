@@ -1,4 +1,4 @@
-PYTHON ?= python
+PYTHON ?= python3
 UVICORN ?= $(PYTHON) -m uvicorn
 APP_MODULE ?= app.main:app
 HOST ?= 127.0.0.1

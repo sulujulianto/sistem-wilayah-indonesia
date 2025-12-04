@@ -25,3 +25,9 @@ async def test_meta_etag_uses_304(async_client: httpx.AsyncClient) -> None:
     )
     assert second.status_code == 304
     assert second.headers.get("etag") == etag
+
+
+async def test_head_meta_supported(async_client: httpx.AsyncClient) -> None:
+    response = await async_client.head("/v1/meta", follow_redirects=False)
+    assert response.status_code in (200, 304)
+    assert response.headers.get("etag") is not None

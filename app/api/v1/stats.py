@@ -9,7 +9,11 @@ from app.schemas.wilayah import StatsResponse
 router = APIRouter()
 
 
-@router.get("/v1/stats", response_model=StatsResponse)
+@router.api_route(
+    "/v1/stats",
+    methods=["GET", "HEAD"],
+    response_model=StatsResponse,
+)
 async def get_stats(request: Request, response: Response) -> StatsResponse | Response:
     etag = deps.get_data_etag()
     if request.headers.get("if-none-match") == etag:

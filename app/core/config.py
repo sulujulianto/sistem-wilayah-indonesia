@@ -53,7 +53,7 @@ def _load_settings() -> Settings:
     data_path = _resolve_data_path()
     metadata_path = _resolve_metadata_path()
     dataset_version = _load_dataset_version(metadata_path)
-    version = os.getenv("APP_VERSION", "0.1.0-api")
+    version = os.getenv("APP_VERSION", "0.1.2-api")
     description = (
         f"Sistem Wilayah Indonesia API — snapshot dataset {dataset_version}. "
         "Data provinsi, kabupaten, kota dalam format JSON."

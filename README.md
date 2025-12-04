@@ -1,102 +1,72 @@
 # Sistem Informasi Wilayah Indonesia (API + CLI)
+![CI](https://github.com/sulujulianto/sistem-wilayah-indonesia/actions/workflows/ci.yml/badge.svg) ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 
-FastAPI backend + CLI untuk data provinsi/kabupaten/kota. Snapshot dataset 2024-12 mencakup 38 provinsi, 416 kabupaten, 98 kota. Terakhir diverifikasi internal: Agustus 2025 (lihat DATA_SOURCES.md).
+FastAPI backend + CLI untuk data provinsi/kabupaten/kota. Snapshot dataset 2024-12 dengan cakupan 38 provinsi, 416 kabupaten, 98 kota. Terakhir dicek internal: Agustus 2025 (cek konsistensi coverage & struktur; bukan verifikasi legal/administratif).
 
-## Versi
-- Tag v1.0.0-cli (CLI/library lama)
-- Versi API: 0.1.0-api (branch feat/backend-api)
-- Swagger/OpenAPI: http://127.0.0.1:8000/docs
+## Fitur Utama
+- Data provinsi/kabupaten/kota tersimpan di JSON
+- Endpoint versi `/v1` (health, stats, meta, provinces, search)
+- Pagination untuk daftar provinsi
+- Pencarian lintas provinsi/kabupaten/kota
+- Caching headers (`Cache-Control`, `ETag`) dengan dukungan `304`
+- CORS bisa dikonfigurasi via env `ALLOW_ORIGINS`
+- CLI legacy tetap ada (tag `v1.0.0-cli`)
 
-## Base URL (Production)
-- Placeholder: https://api.example.com
-- Swagger: https://api.example.com/docs
+## Versi & Rilis
+- CLI legacy: tag `v1.0.0-cli`
+- API: `v0.1.0-api`, `v0.1.1-api`, `v0.1.2-api` (terkini; mencakup smoke test & `api.http`)
+- Catatan perubahan: lihat `CHANGELOG.md`; sumber data & metodologi: `DATA_SOURCES.md`
+
+## Status Hosting
+- Base URL (Production): belum tersedia (belum ada hosting publik/gratis).
+- API dapat dijalankan lokal < 2 menit; sertakan `make smoke` untuk verifikasi cepat.
 
 ## Quickstart Lokal
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt -r requirements-dev.txt
+make dev
 ```
 
-## Menjalankan Server (aman)
+## Verifikasi Cepat (wajib untuk reviewer)
 ```bash
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+make check
+make smoke
+# atau jika server sudah jalan:
+SMOKE_START_SERVER=0 ./scripts/smoke_test.sh
 ```
-Gunakan host 0.0.0.0 hanya untuk container/jaringan jika Anda paham risikonya.
 
 ## Endpoint
-- GET /health
-- GET /v1/stats
-- GET /v1/meta
-- GET /v1/provinces?limit=&offset=
-- GET /v1/provinces/{name} (alias & case-insensitive, 409 jika ambigu)
-- GET /v1/search?q=...&type=all|kabupaten|kota
+- `GET /health` — status aplikasi
+- `GET/HEAD /v1/stats` — ringkasan total provinsi/kabupaten/kota
+- `GET/HEAD /v1/meta` — metadata dataset + computed coverage
+- `GET/HEAD /v1/provinces?limit=&offset=` — daftar provinsi (paginasi)
+- `GET/HEAD /v1/provinces/{name}` — detail provinsi, alias & case-insensitive, `409` jika ambigu
+- `GET/HEAD /v1/search?q=...&type=all|kabupaten|kota` — pencarian lintas provinsi
+- Dokumentasi lokal: http://127.0.0.1:8000/docs
 
-## Contoh curl (lokal & produksi)
+## Contoh Permintaan
 ```bash
-# Lokal
 curl http://127.0.0.1:8000/health
-curl http://127.0.0.1:8000/v1/stats
 curl http://127.0.0.1:8000/v1/meta
 curl "http://127.0.0.1:8000/v1/provinces?limit=5&offset=0"
 curl http://127.0.0.1:8000/v1/provinces/jabar
 curl "http://127.0.0.1:8000/v1/search?q=bima&type=all"
-
-# Produksi (ganti base URL sesuai deploy)
-BASE_URL=https://api.example.com
-curl "$BASE_URL/health"
-curl "$BASE_URL/v1/meta"
-curl "$BASE_URL/v1/search?q=bima&type=all"
 ```
+- File `api.http` siap dipakai di VS Code/JetBrains REST Client (opsional).
 
-## Pengembangan
-```bash
-pytest -q
-ruff check .
-mypy app
-# Smoke test (start server otomatis kecuali SMOKE_START_SERVER=0)
-./scripts/smoke_test.sh
-# atau
-make smoke
-```
+## Konfigurasi (ENV)
+- `APP_VERSION` (default `0.1.2-api`)
+- `ALLOW_ORIGINS` (pisah dengan koma; kosongkan untuk menonaktifkan CORS)
+- `PORT` (default 8000)
+- Jalankan dengan host `127.0.0.1`; gunakan `0.0.0.0` hanya jika memahami risikonya (container/jaringan).
 
-## API Client (opsional)
-- Gunakan `api.http` (format REST Client) di VS Code/JetBrains untuk mencoba endpoint.
+## Data & Atribusi
+- Dataset snapshot: `dataset_version` 2024-12; coverage: 38 provinsi, 416 kabupaten, 98 kota.
+- `last_updated` pada metadata merefleksikan tanggal file di repo, bukan klaim perubahan administratif resmi.
+- Untuk akurasi legal/administratif, rujuk sumber resmi; detail sumber & atribusi ada di `DATA_SOURCES.md`.
+- Lisensi kode: MIT (lihat `LICENSE`); lisensi data mengikuti sumber masing-masing.
 
-## Data
-- app/data/wilayah.json
-- app/data/metadata.json
-- Catatan: dataset snapshot kompilasi (2024-12) dan belum diverifikasi penuh terhadap dokumen pemutakhiran resmi tahun 2025; untuk kepentingan hukum, rujuk langsung ke instansi pemerintah (lihat DATA_SOURCES.md).
-- Lisensi data mengikuti sumber aslinya dan membutuhkan atribusi yang sesuai; lisensi kode: MIT (lihat LICENSE). DETAIL sumber dan atribusi: DATA_SOURCES.md.
-
-## Cache & CORS
-- Respons data statis menggunakan `Cache-Control: public, max-age=86400` dan `ETag`; jika mengirim `If-None-Match`, server akan membalas `304` tanpa body.
-- Aktifkan CORS dengan env `ALLOW_ORIGINS` (pisahkan koma jika banyak origin); kosongkan untuk menonaktifkan.
-
-## Docker / Podman (opsional; CI memverifikasi docker build)
-```bash
-# Docker
-docker build -t sistem-wilayah-indonesia-api .
-docker run -p 8000:8000 sistem-wilayah-indonesia-api
-
-# Podman
-podman build -t sistem-wilayah-indonesia-api .
-podman run -p 8000:8000 sistem-wilayah-indonesia-api
-```
-
-## Struktur Project (ringkas)
-```
-app/
-  api/
-  core/
-  schemas/
-  services/
-  data/
-sistem_wilayah_indonesia.py
-```
-
-## Referensi
-- CHANGELOG: CHANGELOG.md
-- Sumber & metodologi: DATA_SOURCES.md
-- Lisensi: LICENSE
-- Deployment: DEPLOYMENT.md
+## Kontribusi
+Lihat `CONTRIBUTING.md` untuk panduan setup, quality gate, smoke test, dan aturan perubahan data.
